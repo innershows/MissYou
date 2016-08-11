@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 
 import com.innershows.findwhatyoulike.R;
 import com.innershows.findwhatyoulike.girls_pictures.model.ImageFuli;
+import com.innershows.findwhatyoulike.utils.NoIconTransformation;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +31,23 @@ public class RecycleAdapter extends RecyclerView.Adapter<ItemViewHolder> {
         this.mContext = mContext;
     }
 
+    public void addData(List<ImageFuli> imageFulis) {
+        if (this.mImageFulis == null) {
+            this.mImageFulis = new ArrayList<>();
+        }
+
+        this.mImageFulis.addAll(imageFulis);
+        notifyDataSetChanged();
+    }
+
+    public void clear() {
+        if (this.mImageFulis != null) {
+            this.mImageFulis.clear();
+            notifyDataSetChanged();
+        }
+    }
+
+
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //ImageView imageView = new ImageView(mContext);
@@ -37,21 +56,21 @@ public class RecycleAdapter extends RecyclerView.Adapter<ItemViewHolder> {
 
         ItemViewHolder viewHolder = new ItemViewHolder(view);
 
-
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
         String url = mImageFulis.get(position).getUrl();
-        Picasso.with(mContext).load(url)
+        Picasso.with(mContext).load(url).transform(new NoIconTransformation())
                 //.resize(DensityUtils.screenWidth(mContext) >> 1, DensityUtils.dp2px(200, mContext))
                 .into(holder.imageView);
-
     }
 
     @Override
     public int getItemCount() {
         return mImageFulis == null ? 0 : mImageFulis.size();
     }
+
+
 }

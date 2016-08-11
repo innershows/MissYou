@@ -27,7 +27,6 @@ public class OuterGirlsFragment extends Fragment {
 
     ArrayList<Fragment> fragments = new ArrayList<>();
 
-
     public static OuterGirlsFragment newInstance() {
         OuterGirlsFragment fragment = new OuterGirlsFragment();
         return fragment;

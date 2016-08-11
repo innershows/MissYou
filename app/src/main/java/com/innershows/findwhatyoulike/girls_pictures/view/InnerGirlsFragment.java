@@ -4,45 +4,42 @@ package com.innershows.findwhatyoulike.girls_pictures.view;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.innershows.findwhatyoulike.MyApp;
 import com.innershows.findwhatyoulike.R;
 import com.innershows.findwhatyoulike.adapter.RecycleAdapter;
-import com.innershows.findwhatyoulike.girls_pictures.model.ImageFuli;
-import com.innershows.findwhatyoulike.http.HtmlParser;
-import com.innershows.findwhatyoulike.http.RetrofitUtils;
+import com.innershows.findwhatyoulike.girls_pictures.presenter.IInnerPresenter;
+import com.innershows.findwhatyoulike.girls_pictures.presenter.InnerPresenter;
+import com.innershows.findwhatyoulike.utils.OnLoadMoreListener;
 import com.innershows.findwhatyoulike.utils.SpacesItemDecoration;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.innershows.findwhatyoulike.utils.UITools;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
-public class InnerGirlsFragment extends Fragment {
 
-    private final List<ImageFuli> mImageFuli = new ArrayList<>();
+public class InnerGirlsFragment extends Fragment implements IInnerView, SwipeRefreshLayout.OnRefreshListener, OnLoadMoreListener {
+
 
     private static final String PARAMS_CID = "cid";
     @BindView(R.id.recycle_view)
     RecyclerView recycleView;
+    @BindView(R.id.sr_layout)
+    SwipeRefreshLayout srLayout;
+//    @BindView(R.id.ptr_view)
+//    PullToRefreshView ptrView;
 
     private int cid;
     private int pageOffset = 1;
 
     private RecycleAdapter mAdapter;
 
+    IInnerPresenter presenter;
 
     public static InnerGirlsFragment newInstance(int cid) {
         InnerGirlsFragment fragment = new InnerGirlsFragment();
@@ -60,8 +57,8 @@ public class InnerGirlsFragment extends Fragment {
         if (getArguments() != null) {
             cid = getArguments().getInt(PARAMS_CID);
         }
-
-        mAdapter = new RecycleAdapter(mImageFuli, getContext());
+        presenter = new InnerPresenter(this);
+        mAdapter = new RecycleAdapter(null, getContext());
     }
 
     @Override
@@ -77,55 +74,50 @@ public class InnerGirlsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         //recycleView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        recycleView.setLayoutManager(new GridLayoutManager(getContext() , 2));
+        recycleView.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
+//        ptrView.
         SpacesItemDecoration decoration = new SpacesItemDecoration(40);
-        recycleView.addItemDecoration(decoration);
 
+//        recycleView.setOnRefreshListener(this);
+//        recycleView.setPagingableListener(this);
+//
+        srLayout.setOnRefreshListener(this);
+        recycleView.addItemDecoration(decoration);
         recycleView.setAdapter(mAdapter);
 
+        //   ptrView.setOnRefreshListener(this);
+        UITools.setRecycleViewArrivedBottomListener(recycleView, this);
 
-        loadData();
-
+        if (mAdapter.getItemCount() == 0) {
+            //开始加载数据
+            presenter.doLoading(cid, pageOffset, mAdapter);
+            srLayout.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (!srLayout.isRefreshing()) {
+                        srLayout.setRefreshing(true);
+                    }
+                }
+            }, 500);
+        }
     }
 
-    private void loadData() {
-        Observable<String> observable;
-//        if (cid == 0) {
-//            observable = RetrofitUtils.getAPI()
-//                    .allGirls(pageOffset);
-//
-//
-//        } else {
-        System.out.println("==cid==>" + cid);
-        observable = RetrofitUtils.getAPI()
-                .typedGirls(cid, pageOffset);
-        //}
+    @Override
+    public void loadFinished() {
+        srLayout.setRefreshing(false);
+    }
 
-//        observable = RetrofitUtils.getAPI()
-//                .test();
+    @Override
+    public void onRefresh() {
+        pageOffset = 1;
+        presenter.doLoading(cid, pageOffset, mAdapter);
+    }
 
-        observable.observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.newThread())
-                .onErrorReturn(new Func1<Throwable, String>() {
-                    @Override
-                    public String call(Throwable throwable) {
-                        return "错误发生了";
-                    }
-                })
-                .doOnError(new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        Toast.makeText(MyApp.getApp(), "请求失败", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
-                        List<ImageFuli> imageFulis = HtmlParser.handleResponse(s);
-                        InnerGirlsFragment.this.mImageFuli.addAll(imageFulis);
-                        mAdapter.notifyDataSetChanged();
-                    }
-                });
+
+    @Override
+    public void loadMore() {
+        presenter.doLoading(cid, ++pageOffset, mAdapter);
+
     }
 }
