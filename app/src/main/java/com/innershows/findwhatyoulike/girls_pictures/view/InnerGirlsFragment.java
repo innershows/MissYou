@@ -1,6 +1,7 @@
 package com.innershows.findwhatyoulike.girls_pictures.view;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,18 +13,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.innershows.findwhatyoulike.R;
-import com.innershows.findwhatyoulike.adapter.RecycleAdapter;
+import com.innershows.findwhatyoulike.adapter.GirlsImgRecycleAdapter;
 import com.innershows.findwhatyoulike.girls_pictures.presenter.IInnerPresenter;
 import com.innershows.findwhatyoulike.girls_pictures.presenter.InnerPresenter;
-import com.innershows.findwhatyoulike.utils.OnLoadMoreListener;
-import com.innershows.findwhatyoulike.utils.SpacesItemDecoration;
+import com.innershows.findwhatyoulike.utils.view.OnLoadMoreListener;
+import com.innershows.findwhatyoulike.utils.view.SpacesItemDecoration;
 import com.innershows.findwhatyoulike.utils.UITools;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class InnerGirlsFragment extends Fragment implements IInnerView, SwipeRefreshLayout.OnRefreshListener, OnLoadMoreListener {
+public class InnerGirlsFragment extends Fragment implements IInnerView, SwipeRefreshLayout.OnRefreshListener, OnLoadMoreListener, GirlsImgRecycleAdapter.OnItemClickListener {
 
 
     private static final String PARAMS_CID = "cid";
@@ -37,7 +38,7 @@ public class InnerGirlsFragment extends Fragment implements IInnerView, SwipeRef
     private int cid;
     private int pageOffset = 1;
 
-    private RecycleAdapter mAdapter;
+    private GirlsImgRecycleAdapter mAdapter;
 
     IInnerPresenter presenter;
 
@@ -58,7 +59,7 @@ public class InnerGirlsFragment extends Fragment implements IInnerView, SwipeRef
             cid = getArguments().getInt(PARAMS_CID);
         }
         presenter = new InnerPresenter(this);
-        mAdapter = new RecycleAdapter(null, getContext());
+        mAdapter = new GirlsImgRecycleAdapter(null, getContext());
     }
 
     @Override
@@ -89,6 +90,9 @@ public class InnerGirlsFragment extends Fragment implements IInnerView, SwipeRef
         //   ptrView.setOnRefreshListener(this);
         UITools.setRecycleViewArrivedBottomListener(recycleView, this);
 
+
+        mAdapter.setOnItemClickListener(this);
+
         if (mAdapter.getItemCount() == 0) {
             //开始加载数据
             presenter.doLoading(cid, pageOffset, mAdapter);
@@ -99,13 +103,20 @@ public class InnerGirlsFragment extends Fragment implements IInnerView, SwipeRef
                         srLayout.setRefreshing(true);
                     }
                 }
-            }, 500);
+            }, 200);
         }
     }
 
     @Override
     public void loadFinished() {
-        srLayout.setRefreshing(false);
+        srLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (srLayout.isRefreshing()) {
+                    srLayout.setRefreshing(false);
+                }
+            }
+        }, 200);
     }
 
     @Override
@@ -119,5 +130,14 @@ public class InnerGirlsFragment extends Fragment implements IInnerView, SwipeRef
     public void loadMore() {
         presenter.doLoading(cid, ++pageOffset, mAdapter);
 
+    }
+
+    @Override
+    public void onItemClick(View v, int position) {
+        //Recycle 里面的Item的点击事件
+        Intent intent = new Intent(getContext(), ShowBigImgActivity.class);
+        intent.putExtra("position", position);
+        intent.putExtra("data", mAdapter.getData());
+        startActivity(intent);
     }
 }

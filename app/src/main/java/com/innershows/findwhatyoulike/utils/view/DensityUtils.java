@@ -1,4 +1,4 @@
-package com.innershows.findwhatyoulike.utils;
+package com.innershows.findwhatyoulike.utils.view;
 
 import android.content.Context;
 

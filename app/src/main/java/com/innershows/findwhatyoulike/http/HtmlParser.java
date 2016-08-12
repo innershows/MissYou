@@ -27,15 +27,32 @@ public class HtmlParser {
      * @param httpResponse
      * @return
      */
-    public static List<ImageFuli> handleResponse(String httpResponse) {
+    public static List<ImageFuli> handleImageResponse(String httpResponse) {
         List<ImageFuli> ret = new ArrayList<>();
 
         Document document = Jsoup.parse(httpResponse);
         Elements elements = document.select("div[class=thumbnail]>div[class=img_single]>a>img");
         for (Element e : elements) {
             String url = e.attr("src");
+            String title = e.attr("title");
             ImageFuli imageFuli = new ImageFuli(url);
             imageFuli.setType(0);
+            imageFuli.setTitle(title);
+            ret.add(imageFuli);
+        }
+        return ret;
+    }
+    public static List<ImageFuli> handleVideoResponse(String httpResponse) {
+        List<ImageFuli> ret = new ArrayList<>();
+
+        Document document = Jsoup.parse(httpResponse);
+        Elements elements = document.select("div[class=thumbnail]>div[class=img_single]>span>a>img");
+        for (Element e : elements) {
+            String url = e.attr("src");
+            String title = e.attr("title");
+            ImageFuli imageFuli = new ImageFuli(url);
+            imageFuli.setType(0);
+            imageFuli.setTitle(title);
             ret.add(imageFuli);
         }
         return ret;

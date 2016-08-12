@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
+import com.innershows.findwhatyoulike.utils.view.OnLoadMoreListener;
+import com.innershows.findwhatyoulike.utils.view.OnRVScrollListener;
+
 /**
  * Created by innershows on 16/8/11.
  *
@@ -22,7 +25,7 @@ public class UITools {
      * @param activity 需要设置的activity
      * @param color    状态栏颜色值
      */
-    public static void setColor(Activity activity, int color) {
+    public static void setStatusBarColor(Activity activity, int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             // 设置状态栏透明
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

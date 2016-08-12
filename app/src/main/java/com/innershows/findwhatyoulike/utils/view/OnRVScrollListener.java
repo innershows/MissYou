@@ -1,4 +1,4 @@
-package com.innershows.findwhatyoulike.utils;
+package com.innershows.findwhatyoulike.utils.view;
 
 /**
  * Created by innershows on 16/8/11.

@@ -3,7 +3,7 @@ package com.innershows.findwhatyoulike.girls_pictures.presenter;
 import android.widget.Toast;
 
 import com.innershows.findwhatyoulike.MyApp;
-import com.innershows.findwhatyoulike.adapter.RecycleAdapter;
+import com.innershows.findwhatyoulike.adapter.GirlsImgRecycleAdapter;
 import com.innershows.findwhatyoulike.girls_pictures.model.ImageFuli;
 import com.innershows.findwhatyoulike.girls_pictures.view.IInnerView;
 import com.innershows.findwhatyoulike.http.HtmlParser;
@@ -32,7 +32,7 @@ public class InnerPresenter implements IInnerPresenter {
     }
 
     @Override
-    public void doLoading(int cid, final int pagerOffset, final RecycleAdapter adapter) {
+    public void doLoading(int cid, final int pagerOffset, final GirlsImgRecycleAdapter adapter) {
 
         RetrofitUtils.getAPI()
                 .typedGirls(cid, pagerOffset)
@@ -57,7 +57,7 @@ public class InnerPresenter implements IInnerPresenter {
                             adapter.clear();
                         }
 
-                        List<ImageFuli> imageFulis = HtmlParser.handleResponse(s);
+                        List<ImageFuli> imageFulis = HtmlParser.handleImageResponse(s);
                         adapter.addData(imageFulis);
                         iInnerView.loadFinished();
                     }

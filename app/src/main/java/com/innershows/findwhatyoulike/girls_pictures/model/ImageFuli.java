@@ -1,16 +1,19 @@
 package com.innershows.findwhatyoulike.girls_pictures.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Zj on 2015/12/28.
  */
-public class ImageFuli {
+public class ImageFuli implements Serializable {
+
+    private String title;
 
     public ImageFuli(String url) {
         this.url = url;
     }
 
     public ImageFuli() {
-
     }
 
     private String url;
@@ -31,5 +34,13 @@ public class ImageFuli {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

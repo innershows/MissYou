@@ -33,5 +33,8 @@ public interface API {
     Observable<String> test(
     );
 
+    @GET("dbgroup/videos.htm?pager_offset=2")
+    Observable<String> videoGirls(@Query("pager_offset") int pagerOffset);
+
 
 }
