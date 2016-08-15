@@ -116,12 +116,25 @@ public class MainActivity extends AppCompatActivity implements OnMenuTabClickLis
 
         lastCheckedPosition = checked;
 
-
         transaction.commit();
     }
 
+
+
     @Override
     public void onMenuTabReSelected(@IdRes int menuItemId) {
-
+        switch (menuItemId) {
+            case R.id.beauty_image:
+                OuterGirlsFragment outerGirlsFragment = (OuterGirlsFragment) fragments.get(0);
+                outerGirlsFragment.doChildRefresh();
+                break;
+            case R.id.beauty_video:
+                VideoFragment videoFragment = (VideoFragment) fragments.get(1);
+                videoFragment.doRefresh();
+                break;
+            case R.id.beauty_mime:
+                fragments.get(2);
+                break;
+        }
     }
 }

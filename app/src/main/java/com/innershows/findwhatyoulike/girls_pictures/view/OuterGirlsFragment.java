@@ -66,4 +66,12 @@ public class OuterGirlsFragment extends Fragment {
 
         tabLayout.setupWithViewPager(viewPager);
     }
+
+
+    public void doChildRefresh() {
+        InnerGirlsFragment fragment = (InnerGirlsFragment) fragments.get(tabLayout.getSelectedTabPosition());
+        fragment.doRefresh();
+    }
+
+
 }

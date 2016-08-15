@@ -1,4 +1,4 @@
-package com.innershows.findwhatyoulike.girls_video.view;
+package com.innershows.findwhatyoulike.girls_yp.view;
 
 
 import android.os.Bundle;
@@ -7,22 +7,22 @@ import android.view.View;
 import com.innershows.findwhatyoulike.R;
 import com.innershows.findwhatyoulike.adapter.GirlsVideoRecycleAdapter;
 import com.innershows.findwhatyoulike.base.BaseRefreshableFragment;
-import com.innershows.findwhatyoulike.girls_video.presenter.IVideoPresenter;
-import com.innershows.findwhatyoulike.girls_video.presenter.VideoPresenter;
+import com.innershows.findwhatyoulike.girls_yp.presenter.IYPPresenter;
+import com.innershows.findwhatyoulike.girls_yp.presenter.YPPresenter;
 
-public class VideoFragment extends BaseRefreshableFragment implements IVideoView {
+public class YPFragment extends BaseRefreshableFragment implements IYPView {
 
 
-    IVideoPresenter presenter;
+    IYPPresenter presenter;
 
-    public static VideoFragment newInstance() {
-        VideoFragment fragment = new VideoFragment();
+    public static YPFragment newInstance() {
+        YPFragment fragment = new YPFragment();
         return fragment;
     }
 
     @Override
     public void init(Bundle bundle) {
-        presenter = new VideoPresenter(this);
+        presenter = new YPPresenter(this);
 
         if (mAdapter == null) {
             mAdapter = new GirlsVideoRecycleAdapter(null, getContext());

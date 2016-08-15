@@ -4,16 +4,14 @@ import android.widget.Toast;
 
 import com.innershows.findwhatyoulike.MyApp;
 import com.innershows.findwhatyoulike.adapter.BaseRecycleAdapter;
-import com.innershows.findwhatyoulike.girls_pictures.model.ImageFuli;
-import com.innershows.findwhatyoulike.girls_pictures.view.IInnerView;
+import com.innershows.findwhatyoulike.girls_video.model.VideoFuli;
+import com.innershows.findwhatyoulike.girls_video.view.IVideoView;
 import com.innershows.findwhatyoulike.http.HtmlParser;
 import com.innershows.findwhatyoulike.http.RetrofitUtils;
 
 import java.util.List;
 
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -24,11 +22,10 @@ import rx.schedulers.Schedulers;
  * @e_mail innershow@gmail.com
  */
 public class VideoPresenter implements IVideoPresenter {
-    IInnerView iInnerView;
-    //List<ImageFuli> imageFulis;
+    IVideoView iVideoView;
 
-    public VideoPresenter(IInnerView iInnerView) {
-        this.iInnerView = iInnerView;
+    public VideoPresenter(IVideoView iVideoView) {
+        this.iVideoView = iVideoView;
     }
 
     @Override
@@ -38,28 +35,17 @@ public class VideoPresenter implements IVideoPresenter {
                 .videoGirls(pagerOffset)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
-                .onErrorReturn(new Func1<Throwable, String>() {
-                    @Override
-                    public String call(Throwable throwable) {
-                        return "错误发生了";
+                .onErrorReturn(throwable -> "发生错误了")
+                .doOnError(throwable1 ->
+                        Toast.makeText(MyApp.getApp(), "请求失败", Toast.LENGTH_SHORT).show()
+                )
+                .subscribe(s -> {
+                    if (pagerOffset == 1) {
+                        adapter.clear();
                     }
-                })
-                .doOnError(new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        Toast.makeText(MyApp.getApp(), "请求失败", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
-                        if (pagerOffset == 1) {
-                            adapter.clear();
-                        }
-                        List<ImageFuli> imageFulis = HtmlParser.handleVideoResponse(s);
-                        adapter.addData(imageFulis);
-                        iInnerView.loadFinished();
-                    }
+                    List<VideoFuli> videoFulis = HtmlParser.handleVideoResponse(s);
+                    adapter.addData(videoFulis);
+                    iVideoView.loadFinished();
                 });
     }
 }

@@ -1,11 +1,11 @@
-package com.innershows.findwhatyoulike.girls_pictures.presenter;
+package com.innershows.findwhatyoulike.girls_yp.presenter;
 
 import android.widget.Toast;
 
 import com.innershows.findwhatyoulike.MyApp;
 import com.innershows.findwhatyoulike.adapter.BaseRecycleAdapter;
-import com.innershows.findwhatyoulike.girls_pictures.model.ImageFuli;
-import com.innershows.findwhatyoulike.girls_pictures.view.IInnerView;
+import com.innershows.findwhatyoulike.girls_video.model.VideoFuli;
+import com.innershows.findwhatyoulike.girls_yp.view.IYPView;
 import com.innershows.findwhatyoulike.http.HtmlParser;
 import com.innershows.findwhatyoulike.http.RetrofitUtils;
 
@@ -21,35 +21,31 @@ import rx.schedulers.Schedulers;
  * @date 16/8/11
  * @e_mail innershow@gmail.com
  */
-public class InnerPresenter implements IInnerPresenter {
-    IInnerView iInnerView;
-    //List<ImageFuli> imageFulis;
+public class YPPresenter implements IYPPresenter {
+    IYPView IYPView;
 
-    public InnerPresenter(IInnerView iInnerView) {
-        this.iInnerView = iInnerView;
+    public YPPresenter(IYPView IYPView) {
+        this.IYPView = IYPView;
     }
 
     @Override
-    public void doLoading(int cid, final int pagerOffset, final BaseRecycleAdapter adapter) {
+    public void doLoading(final int pagerOffset, final BaseRecycleAdapter adapter) {
 
         RetrofitUtils.getAPI()
-                .typedGirls(cid, pagerOffset)
+                .videoGirls(pagerOffset)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
-                .onErrorReturn(throwable -> "发生错误了")
-                .doOnError(throwable ->
+                .onErrorReturn(throwable -> "返回值")
+                .doOnError(throwable1 ->
                         Toast.makeText(MyApp.getApp(), "请求失败", Toast.LENGTH_SHORT).show()
                 )
                 .subscribe(s -> {
                     if (pagerOffset == 1) {
                         adapter.clear();
                     }
-
-                    List<ImageFuli> imageFulis = HtmlParser.handleImageResponse(s);
-                    adapter.addData(imageFulis);
-                    iInnerView.loadFinished();
+                    List<VideoFuli> videoFulis = HtmlParser.handleVideoResponse(s);
+                    adapter.addData(videoFulis);
+                    IYPView.loadFinished();
                 });
     }
-
-
 }

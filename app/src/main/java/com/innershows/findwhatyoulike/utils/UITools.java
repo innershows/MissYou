@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.innershows.findwhatyoulike.MyApp;
 import com.innershows.findwhatyoulike.utils.view.OnLoadMoreListener;
 import com.innershows.findwhatyoulike.utils.view.OnRVScrollListener;
 
@@ -68,4 +70,8 @@ public class UITools {
         recyclerView.setOnScrollListener(new OnRVScrollListener(listener));
     }
 
+
+    public static void showToast(String content) {
+        Toast.makeText(MyApp.getApp(), "content", Toast.LENGTH_SHORT).show();
+    }
 }

@@ -16,7 +16,10 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  */
 public class RetrofitUtils {
     private static Retrofit retrofit;
+
+    private static Retrofit videoRetrofit;
     private static API api;
+    private static VideoAPI videoAPI;
 
     static {
         retrofit = new Retrofit.Builder().baseUrl(Constants.DOMAIN)
@@ -27,11 +30,23 @@ public class RetrofitUtils {
                 .build();
         //创建一个获取对象
         api = retrofit.create(API.class);
+
+        videoRetrofit = new Retrofit.Builder().baseUrl(Constants.DOMAIN)
+                //用于获取到String类型的数据
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+
+        videoAPI = retrofit.create(VideoAPI.class);
     }
 
     public static API getAPI() {
         return api;
     }
 
+    public static VideoAPI getVideoApi() {
+        return videoAPI;
+    }
 
 }

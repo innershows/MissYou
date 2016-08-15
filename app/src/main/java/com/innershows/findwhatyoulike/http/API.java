@@ -12,29 +12,19 @@ import rx.Observable;
  * @e_mail innershow@gmail.com
  */
 public interface API {
-    /**
-     * "http://www.dbmeinv.com/dbgroup/show.htm?pager_offset=";
-     * "http://www.dbmeinv.com/dbgroup/show.htm?cid=2&pager_offset=";
-     * "http://www.dbmeinv.com/dbgroup/show.htm?cid=6&pager_offset=";
-     * "http://www.dbmeinv.com/dbgroup/show.htm?cid=7&pager_offset=";
-     * "http://www.dbmeinv.com/dbgroup/show.htm?cid=3&pager_offset=";
-     * "http://www.dbmeinv.com/dbgroup/show.htm?cid=4&pager_offset=";
-     */
-    @GET("dbgroup/show.htm")
-    Observable<String> allGirls(
-            @Query("pager_offset") int pageOffset);
-
+    //图片栏目
     @GET("dbgroup/show.htm")
     Observable<String> typedGirls(
             @Query("cid") int cid,
             @Query("pager_offset") int pagerOffset);
 
-    @GET("dbgroup/show.htm?cid=6&pager_offset=2")
-    Observable<String> test(
-    );
-
-    @GET("dbgroup/videos.htm?pager_offset=2")
+    //视频栏目
+    @GET("dbgroup/videos.htm")
     Observable<String> videoGirls(@Query("pager_offset") int pagerOffset);
 
+
+    //约炮栏目
+    @GET("dbgroup/topics.htm")
+    Observable<String> ypGroup(@Query("pager_offset") int pagerOffset);
 
 }

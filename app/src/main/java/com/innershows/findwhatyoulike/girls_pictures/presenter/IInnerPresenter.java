@@ -1,6 +1,6 @@
 package com.innershows.findwhatyoulike.girls_pictures.presenter;
 
-import com.innershows.findwhatyoulike.adapter.GirlsImgRecycleAdapter;
+import com.innershows.findwhatyoulike.adapter.BaseRecycleAdapter;
 
 /**
  * Created by innershows on 16/8/10.
@@ -10,5 +10,5 @@ import com.innershows.findwhatyoulike.adapter.GirlsImgRecycleAdapter;
  * @e_mail innershow@gmail.com
  */
 public interface IInnerPresenter {
-    void doLoading(int cid, int pagerOffset, GirlsImgRecycleAdapter adapter);
+    void doLoading(int cid, int pagerOffset, BaseRecycleAdapter adapter);
 }

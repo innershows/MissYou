@@ -43,4 +43,13 @@ public class ImageFuli implements Serializable {
     public String getTitle() {
         return title;
     }
+
+    @Override
+    public String toString() {
+        return "ImageFuli{" +
+                "type=" + type +
+                ", url='" + url + '\'' +
+                ", title='" + title + '\'' +
+                '}';
+    }
 }
