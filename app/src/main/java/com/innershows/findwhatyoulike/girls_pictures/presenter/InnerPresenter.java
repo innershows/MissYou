@@ -32,23 +32,44 @@ public class InnerPresenter implements IInnerPresenter {
     @Override
     public void doLoading(int cid, final int pagerOffset, final BaseRecycleAdapter adapter) {
 
-        RetrofitUtils.getAPI()
-                .typedGirls(cid, pagerOffset)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.newThread())
-                .onErrorReturn(throwable -> "发生错误了")
-                .doOnError(throwable ->
-                        Toast.makeText(MyApp.getApp(), "请求失败", Toast.LENGTH_SHORT).show()
-                )
-                .subscribe(s -> {
-                    if (pagerOffset == 1) {
-                        adapter.clear();
-                    }
 
-                    List<ImageFuli> imageFulis = HtmlParser.handleImageResponse(s);
-                    adapter.addData(imageFulis);
-                    iInnerView.loadFinished();
-                });
+        if (cid != -1) {
+            RetrofitUtils.getAPI()
+                    .typedGirls(cid, pagerOffset)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.newThread())
+                    .onErrorReturn(throwable -> "发生错误了")
+                    .doOnError(throwable ->
+                            Toast.makeText(MyApp.getApp(), "请求失败", Toast.LENGTH_SHORT).show()
+                    )
+                    .subscribe(s -> {
+                        if (pagerOffset == 1) {
+                            adapter.clear();
+                        }
+
+                        List<ImageFuli> imageFulis = HtmlParser.handleImageResponse(s);
+                        adapter.addData(imageFulis);
+                        iInnerView.loadFinished();
+                    });
+        } else {
+            RetrofitUtils.getAPI()
+                    .fancyGirls(pagerOffset)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.newThread())
+                    .onErrorReturn(throwable -> "发生错误了")
+                    .doOnError(throwable ->
+                            Toast.makeText(MyApp.getApp(), "请求失败", Toast.LENGTH_SHORT).show()
+                    )
+                    .subscribe(s -> {
+                        if (pagerOffset == 1) {
+                            adapter.clear();
+                        }
+
+                        List<ImageFuli> imageFulis = HtmlParser.handleImageResponse(s);
+                        adapter.addData(imageFulis);
+                        iInnerView.loadFinished();
+                    });
+        }
     }
 
 

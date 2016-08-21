@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements OnMenuTabClickLis
         //设置沉浸式状态栏
         UITools.setStatusBarColor(this, 0x58bc3a3a);
         ButterKnife.bind(this);
-
     }
 
     private void initBottombar(Bundle savedInstanceState) {
@@ -52,12 +51,9 @@ public class MainActivity extends AppCompatActivity implements OnMenuTabClickLis
 
         mBottomBar.setOnMenuTabClickListener(this);
 
-        // Setting colors for different tabs when there's more than three of them.
-        // You can set colors for tabs in three different ways as shown below.
         mBottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.colorAccent));
         mBottomBar.mapColorForTab(1, "#5D4037");
         mBottomBar.mapColorForTab(2, "#ab616e");
-        //mBottomBar.mapColorForTab(3, "#c25b56");
     }
 
     @Override
@@ -118,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements OnMenuTabClickLis
 
         transaction.commit();
     }
-
 
 
     @Override

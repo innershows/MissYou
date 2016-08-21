@@ -27,4 +27,11 @@ public interface API {
     @GET("dbgroup/topics.htm")
     Observable<String> ypGroup(@Query("pager_offset") int pagerOffset);
 
+
+
+    //约炮栏目
+    @GET("dbgroup/rank.htm")
+    Observable<String> fancyGirls(@Query("pager_offset") int pagerOffset);
+
 }
+

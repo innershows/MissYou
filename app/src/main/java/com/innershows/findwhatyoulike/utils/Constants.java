@@ -15,7 +15,8 @@ public class Constants {
             "黑丝袜",
             "美腿控",
             "有颜值",
-            "大杂烩"
+            "大杂烩",
+            "豆瓣福利"
     };
     public static final int[] IDS = new int[]{
             2,
@@ -24,9 +25,9 @@ public class Constants {
             3,
             4,
             5,
+            -1,
     };
 
     public static final String DOMAIN = "http://www.dbmeinv.com/";
     public static final String MEIPAI_DOMAIN = "";
-
 }
