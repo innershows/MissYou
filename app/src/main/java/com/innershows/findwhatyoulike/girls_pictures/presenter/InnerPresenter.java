@@ -38,6 +38,7 @@ public class InnerPresenter implements IInnerPresenter {
                     .typedGirls(cid, pagerOffset)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
+                    .onErrorReturn(Throwable::getMessage)
                     .onErrorReturn(throwable -> "发生错误了")
                     .doOnError(throwable ->
                             Toast.makeText(MyApp.getApp(), "请求失败", Toast.LENGTH_SHORT).show()

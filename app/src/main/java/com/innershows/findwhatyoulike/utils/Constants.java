@@ -29,5 +29,6 @@ public class Constants {
     };
 
     public static final String DOMAIN = "http://www.dbmeinv.com/";
-    public static final String MEIPAI_DOMAIN = "";
+    public static final String MEIPAI_DOMAIN = "http://newapi.meipai.com/";
+    public static final String MEIPAI_VIDEO_DOMAIN = "http://www.meipai.com/";
 }

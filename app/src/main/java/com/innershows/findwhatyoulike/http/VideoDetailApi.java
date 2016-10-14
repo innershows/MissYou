@@ -11,8 +11,8 @@ import rx.Observable;
  * @date 16/8/12
  * @e_mail innershow@gmail.com
  */
-public interface VideoAPI {
+public interface VideoDetailAPI {
 
-    @GET("dbgroup/{id}")
-    Observable<String> videoGirls(@Path("id") String id);
+    @GET("media/{id}")
+    Observable<String> videoDetail(@Path("id") int id);
 }

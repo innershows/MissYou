@@ -9,15 +9,11 @@ import android.view.ViewGroup;
 import com.innershows.findwhatyoulike.R;
 import com.innershows.findwhatyoulike.adapter.viewholder.ItemVideoViewHolder;
 import com.innershows.findwhatyoulike.girls_video.model.VideoFuli;
-import com.innershows.findwhatyoulike.http.HtmlParser;
-import com.innershows.findwhatyoulike.http.RetrofitUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import static fm.jiecao.jcvideoplayer_lib.JCVideoPlayer.SCREEN_LAYOUT_LIST;
 
 /**
  * Created by innershows on 16/8/11.
@@ -46,61 +42,25 @@ public class GirlsVideoRecycleAdapter extends BaseRecycleAdapter<VideoFuli, Item
         VideoFuli videoFuli = data.get(position);
 
         Picasso.with(mContext)
-                .load(videoFuli.getImageUrl())
+                .load(videoFuli.getCover_pic())
                 .into(holder.jcVideoPlayerStandard.thumbImageView);
 
         holder.jcVideoPlayerStandard.setTag(videoFuli);
 
 
-        holder.jcVideoPlayerStandard.setUp(
-                videoFuli.getVideoUrl()
-                , JCVideoPlayerStandard.SCREEN_LAYOUT_LIST,
-                videoFuli.getTitle());
+        holder.jcVideoPlayerStandard.setUp("",
+                SCREEN_LAYOUT_LIST,
+                videoFuli.getCaption()
+        );
 
-        if (TextUtils.isEmpty(videoFuli.getVideoUrl()) && !videoFuli.isLoading()) {
-            videoFuli.setLoading(true);
-            holder.jcVideoPlayerStandard.setUp(
-                    videoFuli.getVideoUrl()
-                    , JCVideoPlayerStandard.SCREEN_LAYOUT_LIST,
-                    videoFuli.getTitle());
-
-            loadVideoPath(
-                    holder.jcVideoPlayerStandard,
-                    videoFuli.getLinkUrl());
+        if (TextUtils.isEmpty(videoFuli.getVideoUrl())) {
+            holder.jcVideoPlayerStandard.onClick(holder.jcVideoPlayerStandard.startButton);
         }
-    }
-
-    private void loadVideoPath(final JCVideoPlayerStandard jcVideoPlayerStandard, final String path) {
-
-        RetrofitUtils.getVideoApi()
-                .videoGirls(path)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .onErrorReturn(throwable -> "出错了")
-                .onErrorReturn(throwable2 -> "返回值")
-                .doOnError(throwable1 -> System.out.println("====>下载失败"))
-                .subscribe(s -> {
-                            Object tag = jcVideoPlayerStandard.getTag();
-
-                            if (tag == null || !(tag instanceof VideoFuli)) {
-                                return;
-                            }
-                            VideoFuli videoFuli = (VideoFuli) tag;
-
-                            if (path.equals(videoFuli.getLinkUrl())) {
-                                HtmlParser.handleVideoDetail(s, videoFuli);
-                                videoFuli.setLoading(false);
-
-                                String videoUrl = videoFuli.getVideoUrl();
-
-                                jcVideoPlayerStandard.setUp(videoUrl
-                                        , JCVideoPlayerStandard.SCREEN_LAYOUT_LIST, videoFuli.getTitle());
-                            }
-
-                        }
-                );
-
-
+//
+//        holder.jcVideoPlayerStandard.setUp(
+//                "http://mvvideo5.meitudata.com/57fdd8fa9a7d23528.mp4"
+//                , JCVideoPlayerStandard.SCREEN_LAYOUT_LIST,
+//                videoFuli.getCaption());
     }
 
 }

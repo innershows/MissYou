@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 
 import com.innershows.findwhatyoulike.girls_pictures.view.OuterGirlsFragment;
 import com.innershows.findwhatyoulike.girls_video.view.VideoFragment;
+import com.innershows.findwhatyoulike.girls_yp.view.YPFragment;
 import com.innershows.findwhatyoulike.utils.UITools;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements OnMenuTabClickLis
         setSupportActionBar(toolbar);
         fragments.add(OuterGirlsFragment.newInstance());
         fragments.add(VideoFragment.newInstance());
-        fragments.add(VideoFragment.newInstance());
+        fragments.add(YPFragment.newInstance());
     }
 
     @Override

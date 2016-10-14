@@ -32,6 +32,7 @@ public abstract class BaseRefreshableFragment extends Fragment implements SwipeR
     protected RecyclerView recycleView;
     @BindView(R.id.sr_layout)
     protected SwipeRefreshLayout srLayout;
+
     protected int pagerOffset = 1;
     protected BaseRecycleAdapter mAdapter;
 

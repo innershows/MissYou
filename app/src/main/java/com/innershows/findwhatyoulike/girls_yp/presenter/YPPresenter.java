@@ -4,7 +4,7 @@ import android.widget.Toast;
 
 import com.innershows.findwhatyoulike.MyApp;
 import com.innershows.findwhatyoulike.adapter.BaseRecycleAdapter;
-import com.innershows.findwhatyoulike.girls_video.model.VideoFuli;
+import com.innershows.findwhatyoulike.girls_yp.model.YP;
 import com.innershows.findwhatyoulike.girls_yp.view.IYPView;
 import com.innershows.findwhatyoulike.http.HtmlParser;
 import com.innershows.findwhatyoulike.http.RetrofitUtils;
@@ -31,11 +31,12 @@ public class YPPresenter implements IYPPresenter {
     @Override
     public void doLoading(final int pagerOffset, final BaseRecycleAdapter adapter) {
 
-        RetrofitUtils.getAPI()
-                .videoGirls(pagerOffset)
+        RetrofitUtils
+                .getAPI()
+                .ypGroup(pagerOffset)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
-                .onErrorReturn(throwable -> "返回值")
+                .onErrorReturn(Throwable::getMessage)
                 .doOnError(throwable1 ->
                         Toast.makeText(MyApp.getApp(), "请求失败", Toast.LENGTH_SHORT).show()
                 )
@@ -43,8 +44,8 @@ public class YPPresenter implements IYPPresenter {
                     if (pagerOffset == 1) {
                         adapter.clear();
                     }
-                    List<VideoFuli> videoFulis = HtmlParser.handleVideoResponse(s);
-                    adapter.addData(videoFulis);
+                    List<YP> yps = HtmlParser.handleYPResponse(s);
+                    adapter.addData(yps);
                     IYPView.loadFinished();
                 });
     }

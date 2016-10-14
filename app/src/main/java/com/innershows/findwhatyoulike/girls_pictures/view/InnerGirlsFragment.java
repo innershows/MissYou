@@ -31,6 +31,8 @@ public class InnerGirlsFragment extends BaseRefreshableFragment implements IInne
         args.putInt(PARAMS_CID, cid);
         fragment.setArguments(args);
 
+        
+
         return fragment;
     }
 

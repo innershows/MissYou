@@ -25,6 +25,8 @@ public class YP implements Serializable {
     public void setContentDetailUrl(String contentDetailUrl) {
         this.contentDetailUrl = contentDetailUrl;
     }
+    private String contentDetailUrl;
+
 
     public String getUserDetailUrl() {
         return userDetailUrl;
@@ -34,7 +36,6 @@ public class YP implements Serializable {
         this.userDetailUrl = userDetailUrl;
     }
 
-    private String contentDetailUrl;
 
     public String getAvatarUrl() {
         return avatarUrl;

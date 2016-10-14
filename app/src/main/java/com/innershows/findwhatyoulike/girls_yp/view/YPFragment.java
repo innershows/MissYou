@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.innershows.findwhatyoulike.R;
-import com.innershows.findwhatyoulike.adapter.GirlsVideoRecycleAdapter;
+import com.innershows.findwhatyoulike.adapter.YPRecycleAdapter;
 import com.innershows.findwhatyoulike.base.BaseRefreshableFragment;
 import com.innershows.findwhatyoulike.girls_yp.presenter.IYPPresenter;
 import com.innershows.findwhatyoulike.girls_yp.presenter.YPPresenter;
@@ -25,7 +25,7 @@ public class YPFragment extends BaseRefreshableFragment implements IYPView {
         presenter = new YPPresenter(this);
 
         if (mAdapter == null) {
-            mAdapter = new GirlsVideoRecycleAdapter(null, getContext());
+            mAdapter = new YPRecycleAdapter(null, getContext());
         }
     }
 

@@ -17,9 +17,15 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class RetrofitUtils {
     private static Retrofit retrofit;
 
-    private static Retrofit videoRetrofit;
+    private static Retrofit videoListRetrofit;
+
+
+    private static Retrofit videoDetailRetrofit;
+
     private static API api;
-    private static VideoAPI videoAPI;
+    private static VideoListAPI videoListAPI;
+
+    private static VideoDetailAPI videoDetailAPI;
 
     static {
         retrofit = new Retrofit.Builder().baseUrl(Constants.DOMAIN)
@@ -31,22 +37,39 @@ public class RetrofitUtils {
         //创建一个获取对象
         api = retrofit.create(API.class);
 
-        videoRetrofit = new Retrofit.Builder().baseUrl(Constants.DOMAIN)
+        videoListRetrofit = new Retrofit.Builder().baseUrl(Constants.MEIPAI_DOMAIN)
                 //用于获取到String类型的数据
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
-        videoAPI = retrofit.create(VideoAPI.class);
+
+        videoListAPI = videoListRetrofit.create(VideoListAPI.class);
+
+
+        videoDetailRetrofit = new Retrofit.Builder().baseUrl(Constants.MEIPAI_VIDEO_DOMAIN)
+                //用于获取到String类型的数据
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+
+
+        videoDetailAPI = videoDetailRetrofit.create(VideoDetailAPI.class);
+
     }
 
     public static API getAPI() {
         return api;
     }
 
-    public static VideoAPI getVideoApi() {
-        return videoAPI;
+    public static VideoListAPI getVideoApi() {
+        return videoListAPI;
     }
+    public static VideoDetailAPI getVideoDetailApi() {
+        return videoDetailAPI;
+    }
+
 
 }
