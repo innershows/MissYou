@@ -10,6 +10,8 @@ import com.innershows.findwhatyoulike.base.BaseRefreshableFragment;
 import com.innershows.findwhatyoulike.girls_video.presenter.IVideoPresenter;
 import com.innershows.findwhatyoulike.girls_video.presenter.VideoPresenter;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+
 public class VideoFragment extends BaseRefreshableFragment implements IVideoView {
 
 
@@ -44,6 +46,12 @@ public class VideoFragment extends BaseRefreshableFragment implements IVideoView
         }, 200);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        JCVideoPlayer.releaseAllVideos();
+
+    }
 
     @Override
     public void onRefresh() {

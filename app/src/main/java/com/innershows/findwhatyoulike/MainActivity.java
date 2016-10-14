@@ -1,5 +1,6 @@
 package com.innershows.findwhatyoulike;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.design.widget.CoordinatorLayout;
@@ -9,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.innershows.findwhatyoulike.girls_pictures.view.OuterGirlsFragment;
@@ -23,6 +25,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 public class MainActivity extends AppCompatActivity implements OnMenuTabClickListener {
 
@@ -116,6 +119,35 @@ public class MainActivity extends AppCompatActivity implements OnMenuTabClickLis
         transaction.commit();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (JCVideoPlayer.backPress()) {
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    /**
+     * 选择了菜单按钮
+     *
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.about:
+                startActivity(new Intent(this, AboutActivity.class));
+
+                break;
+            default:
+                break;
+        }
+
+
+        return super.onOptionsItemSelected(item);
+
+    }
 
     @Override
     public void onMenuTabReSelected(@IdRes int menuItemId) {
@@ -129,7 +161,8 @@ public class MainActivity extends AppCompatActivity implements OnMenuTabClickLis
                 videoFragment.doRefresh();
                 break;
             case R.id.beauty_mime:
-                fragments.get(2);
+                YPFragment ypFragment = (YPFragment) fragments.get(2);
+                ypFragment.doRefresh();
                 break;
         }
     }

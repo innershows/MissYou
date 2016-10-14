@@ -72,6 +72,6 @@ public class UITools {
 
 
     public static void showToast(String content) {
-        Toast.makeText(MyApp.getApp(), "content", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MyApp.getApp(), content, Toast.LENGTH_SHORT).show();
     }
 }

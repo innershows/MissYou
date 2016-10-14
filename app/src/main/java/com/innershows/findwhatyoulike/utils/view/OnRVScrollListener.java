@@ -13,11 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
-/**
- * @author Jack Tony
- * @brief recyle view 滚动监听器
- * @date 2015/4/6
- */
+
 public class OnRVScrollListener extends RecyclerView.OnScrollListener {
 
     private OnLoadMoreListener listener;
