@@ -3,6 +3,7 @@ package com.innershows.findwhatyoulike.http;
 import com.innershows.findwhatyoulike.girls_pictures.model.ImageFuli;
 import com.innershows.findwhatyoulike.girls_video.model.VideoFuli;
 import com.innershows.findwhatyoulike.girls_yp.model.YP;
+import com.innershows.findwhatyoulike.girls_yp.model.YPDetail;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -133,7 +134,6 @@ public class HtmlParser {
 //
 
             String text = info.text();
-            System.out.println("==>text" + text);
             String nickname = text.split("•")[1].trim();
             String date = text.split("•")[2].trim();
             //System.out.println("==>name"+split[0]);
@@ -146,5 +146,34 @@ public class HtmlParser {
             ret.add(yp);
         }
         return ret;
+    }
+
+    public static YPDetail handleYPDetail(String httpResponse) {
+        YPDetail ypDetail = new YPDetail();
+
+        Document document = Jsoup.parse(httpResponse);
+
+        Elements divContainer = document.select("div[class=topic-figure cc]");
+
+        List<String> imgs = ypDetail.getImgs();
+        if (imgs == null) {
+            imgs = new ArrayList<>();
+            ypDetail.setImgs(imgs);
+        }
+
+        for (Element element : divContainer) {
+            Elements img = element.getElementsByTag("img");
+            String src = img.attr("src");
+            imgs.add(src);
+        }
+
+        Elements pContentText = document.select("div[class=panel-body markdown]>p");
+
+        String content = pContentText.text();
+        ypDetail.setContent(content);
+
+
+        System.out.println("====>" + ypDetail);
+        return ypDetail;
     }
 }

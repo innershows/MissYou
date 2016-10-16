@@ -55,7 +55,6 @@ public class RetrofitUtils {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
-
         videoDetailAPI = videoDetailRetrofit.create(VideoDetailAPI.class);
 
     }
@@ -67,6 +66,7 @@ public class RetrofitUtils {
     public static VideoListAPI getVideoApi() {
         return videoListAPI;
     }
+
     public static VideoDetailAPI getVideoDetailApi() {
         return videoDetailAPI;
     }

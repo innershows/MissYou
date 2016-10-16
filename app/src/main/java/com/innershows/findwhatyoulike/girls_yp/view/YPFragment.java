@@ -1,14 +1,18 @@
 package com.innershows.findwhatyoulike.girls_yp.view;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.innershows.findwhatyoulike.R;
+import com.innershows.findwhatyoulike.YPDetailActivity;
 import com.innershows.findwhatyoulike.adapter.YPRecycleAdapter;
 import com.innershows.findwhatyoulike.base.BaseRefreshableFragment;
 import com.innershows.findwhatyoulike.girls_yp.presenter.IYPPresenter;
 import com.innershows.findwhatyoulike.girls_yp.presenter.YPPresenter;
+
+import java.io.Serializable;
 
 public class YPFragment extends BaseRefreshableFragment implements IYPView {
 
@@ -58,5 +62,8 @@ public class YPFragment extends BaseRefreshableFragment implements IYPView {
 
     @Override
     public void onItemClick(View v, int position) {
+        Intent intent = new Intent(getContext(), YPDetailActivity.class);
+        intent.putExtra(YPDetailActivity.DETAIL, (Serializable) mAdapter.getData().get(position));
+        startActivity(intent);
     }
 }

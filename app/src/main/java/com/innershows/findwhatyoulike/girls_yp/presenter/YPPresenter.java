@@ -49,4 +49,5 @@ public class YPPresenter implements IYPPresenter {
                     IYPView.loadFinished();
                 });
     }
+
 }

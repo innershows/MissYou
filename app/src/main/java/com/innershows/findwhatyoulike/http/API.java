@@ -1,6 +1,7 @@
 package com.innershows.findwhatyoulike.http;
 
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -28,10 +29,11 @@ public interface API {
     Observable<String> ypGroup(@Query("pager_offset") int pagerOffset);
 
 
-
     //约炮栏目
     @GET("dbgroup/rank.htm")
     Observable<String> fancyGirls(@Query("pager_offset") int pagerOffset);
 
+    @GET("dbgroup/{id}")
+    Observable<String> getYPDetail(@Path("id") String id);
 }
 

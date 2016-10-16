@@ -25,6 +25,7 @@ public class YP implements Serializable {
     public void setContentDetailUrl(String contentDetailUrl) {
         this.contentDetailUrl = contentDetailUrl;
     }
+
     private String contentDetailUrl;
 
 
