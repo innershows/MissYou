@@ -19,6 +19,7 @@ public class RetrofitUtils {
 
     private static Retrofit videoListRetrofit;
 
+    private int age = 10;
 
     private static Retrofit videoDetailRetrofit;
 
