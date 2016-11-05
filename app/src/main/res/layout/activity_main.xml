@@ -23,6 +23,15 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <Button
+        android:id="@+id/btn"
+        android:onClick="btn"
+        android:text="我是个按钮"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <include layout="@layout/content_main"
+       />
 
 </android.support.design.widget.CoordinatorLayout>

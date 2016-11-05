@@ -1,5 +1,7 @@
 package com.innershows.findwhatyoulike;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -11,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import com.innershows.findwhatyoulike.girls_pictures.view.OuterGirlsFragment;
@@ -165,5 +168,36 @@ public class MainActivity extends AppCompatActivity implements OnMenuTabClickLis
                 ypFragment.doRefresh();
                 break;
         }
+    }
+
+    public void btn(View view) {
+        //view.setTranslationX();
+        ObjectAnimator anim = ObjectAnimator.ofFloat(view, "translationX", 0, 100);
+
+        anim.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                System.out.println("=====>onAnimationStart");
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                System.out.println("=====>onAnimationEnd");
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                System.out.println("=====>onAnimationCancel");
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+                System.out.println("=====>onAnimationRepeat");
+            }
+        });
+
+        anim.setDuration(2000);
+        anim.start();
+
     }
 }
